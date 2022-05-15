@@ -1,0 +1,8 @@
+{
+  "name": "startServer",
+  "version": "0.0.1",
+  "dependencies": {
+    "@google-cloud/compute": "3.2.1",
+    "@google-cloud/dns": "2.2.4"
+  }
+}

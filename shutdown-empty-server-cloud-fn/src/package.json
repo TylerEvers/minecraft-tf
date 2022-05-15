@@ -1,0 +1,10 @@
+{
+  "name": "sample-http",
+  "version": "0.0.1",
+  "type": "module",
+  "dependencies": {
+    "@google-cloud/compute": "latest",
+    "@google-cloud/dns": "latest",
+    "axios": "latest"
+  }
+}

@@ -1,0 +1,54 @@
+[Unit]
+Description=Minecraft Server %i
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/minecraft/%i
+
+PrivateUsers=true
+# Users Database is not available from within the unit, only root and minecraft is available, everybody else is nobody
+
+User=minecraft
+Group=minecraft
+
+ProtectSystem=full
+# Read only mapping of /usr /boot and /etc
+
+ProtectHome=true
+# /home, /root and /run/user seem to be empty from within the unit. It is recommended to enable this setting for all long-running services (in particular network-facing ones).
+
+ProtectKernelTunables=true
+# /proc/sys, /sys, /proc/sysrq-trigger, /proc/latency_stats, /proc/acpi, /proc/timer_stats, /proc/fs and /proc/irq will be read-only within the unit. It is recommended to turn this on for most services.
+# Implies MountFlags=slave
+
+ProtectKernelModules=true
+# Block module system calls, also /usr/lib/modules. It is recommended to turn this on for most services that do not need special file systems or extra kernel modules to work
+# Implies NoNewPrivileges=yes
+
+ProtectControlGroups=true
+# It is hence recommended to turn this on for most services.
+# Implies MountAPIVFS=yes
+
+# Set default memory values
+Environment="MCMINMEM=4G" "MCMAXMEM=14G" "SHUTDOWN_DELAY=5" "POST_SHUTDOWN_DELAY=10"
+# Change memory values in environment file
+EnvironmentFile=-/opt/minecraft/%i/server.conf
+
+# Uncomment this to fix screen on RHEL 8
+#ExecStartPre=+/bin/sh -c 'chmod 777 /run/screen'
+
+ExecStart=/usr/bin/screen -DmS mc-%i /usr/bin/bash /opt/minecraft/%i/start.sh
+ExecReload=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "reload"\\015'
+
+ExecStop=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "say SERVER SHUTTING DOWN. Saving map..."\\015'
+ExecStop=/bin/sh -c '/bin/sleep ${SHUTDOWN_DELAY}'
+ExecStop=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "save-all"\\015'
+ExecStop=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "stop"\\015'
+ExecStop=/bin/sh -c '/bin/sleep ${POST_SHUTDOWN_DELAY}'
+
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
+
