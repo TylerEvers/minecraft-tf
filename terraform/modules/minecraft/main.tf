@@ -9,6 +9,7 @@ module "minecraft_gce" {
   name_suffix           = var.suffix
   shutdown_script       = file("${path.module}/shutdown.sh")
   service_account_email = module.service_account.email
+  machine_type          = "c2-standard-8"
 }
 
 module "dns" {
