@@ -37,7 +37,7 @@ EnvironmentFile=-/opt/minecraft/%i/server.conf
 # Uncomment this to fix screen on RHEL 8
 #ExecStartPre=+/bin/sh -c 'chmod 777 /run/screen'
 
-ExecStart=/usr/bin/screen -DmS mc-%i /usr/bin/bash /opt/minecraft/%i/start.sh
+ExecStart=/usr/bin/screen -DmS mc-%i /usr/bin/bash /opt/minecraft/%i/run.sh
 ExecReload=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "reload"\\015'
 
 ExecStop=/usr/bin/screen -p 0 -S mc-%i -X eval 'stuff "say SERVER SHUTTING DOWN. Saving map..."\\015'
@@ -51,4 +51,3 @@ RestartSec=60s
 
 [Install]
 WantedBy=multi-user.target
-

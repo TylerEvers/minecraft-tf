@@ -99,11 +99,12 @@ const startServer = async (req, res) => {
       <div class="row">
         <img id="myimg" src="https://media.giphy.com/media/OmbyTTZGa60gM/giphy.gif" class="rounded mx-auto d-block my-5" style="width: 300px;">
       </div>
-      <h3> Minecraft 1.16.5 Modded Server Status</h3>
+      <h3> Minecraft Server Status</h3>
       <div id="status" class="alert alert-info">
         <p> Please wait, Querying Server Status </p>
       </div>
        <p>The server address is <em>${process.env.DOMAIN}</em></p>
+       <p>The server IP is <em>${process.env.IP}</em></p>
     </div>
     </div>
     </main>

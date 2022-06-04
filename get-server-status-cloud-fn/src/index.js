@@ -1,7 +1,7 @@
 const Query = require("minecraft-query");
 
 const getStats = async () => {
-  const q = new Query({host: process.env.DOMAIN, port: 25565, timeout: 15000});
+  const q = new Query({host: process.env.IP, port: 25565, timeout: 15000});
 
   const stats = await q.basicStat()
   q.close()

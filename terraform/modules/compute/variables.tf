@@ -8,3 +8,8 @@ variable "shutdown_script" {
   description = "The shutdown script for this instance"
   default     = "echo 'goodbye'"
 }
+
+variable "service_account_email" {
+  type        = string
+  description = "The SA to use for this instance"
+}

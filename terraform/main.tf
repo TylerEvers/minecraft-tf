@@ -7,7 +7,7 @@ provider "google" {
 module "minecraft-one-eighteen" {
   source     = "./modules/minecraft"
   suffix     = "one-eighteen"
-  domain     = "one.eighteen.minecraft.jcjolley.com"
+  domain     = "one.eighteen.jolley-minecraft.com"
   zone       = "us-central1-a"
   project_id = "abstract-code-308212"
 }

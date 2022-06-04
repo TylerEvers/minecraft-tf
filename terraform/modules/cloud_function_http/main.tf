@@ -3,8 +3,14 @@ resource "google_storage_bucket" "default" {
   location = "US"
 }
 
+data "archive_file" "default" {
+  type        = "zip"
+  source_dir  = var.source_dir
+  output_path = var.source_zip
+}
+
 resource "google_storage_bucket_object" "default" {
-  name   = "index.zip"
+  name   = "index.${substr(data.archive_file.default.output_md5, 0, 5)}.zip"
   bucket = google_storage_bucket.default.name
   source = var.source_zip
 }
@@ -20,6 +26,7 @@ resource "google_cloudfunctions_function" "default" {
   trigger_http          = true
   entry_point           = var.entry_point
   environment_variables = var.environment_variables
+  service_account_email = var.service_account_email
 }
 
 

@@ -1,6 +1,12 @@
 #!/bin/bash
 
 MINECRAFT_SERVER_JAR_URL="https://launcher.mojang.com/v1/objects/c8f83c5655308435b3dcf03c06d9fe8740a77469/server.jar"
+MINECRAFT_FORGE_INSTALLER_URL="https://maven.minecraftforge.net/net/minecraftforge/forge/1.18.2-40.1.20/forge-1.18.2-40.1.20-installer.jar"
+
+create_user() {
+    mkdir -p /opt/minecraft/modded
+    sudo adduser --system --shell /bin/bash --home /opt/minecraft --group minecraft
+}
 
 install_java() {
     wget https://download.java.net/java/GA/jdk17.0.2/dfd4a8d0985749f896bed50d7138ee7f/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
@@ -13,22 +19,22 @@ install_java() {
 }
 
 install_minecraft_server() {
-    wget $MINECRAFT_SERVER_JAR_URL
-    chmod +x server.jar
-    mkdir -p /opt/minecraft/modded
-    mv server.jar /opt/minecraft/modded
+    wget -O forge.jar $MINECRAFT_FORGE_INSTALLER_URL
+    chmod +x forge.jar
+    mv forge.jar /opt/minecraft/modded
     pushd /opt/minecraft/modded
-    echo "eula=true"
+    echo "eula=true" > eula.txt
+    java -jar forge.jar --installServer
 }
 
 setup_service() {
     sudo systemctl daemon-reload
     sudo systemctl enable minecraft@modded
     sudo systemctl start minecraft@modded
-
 }
 
 install() {
+    create_user
     install_java
     sudo apt install screen -y
     install_minecraft_server

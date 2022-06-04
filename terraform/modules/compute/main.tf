@@ -1,8 +1,3 @@
-resource "google_service_account" "default" {
-  account_id   = "minecraft-gce-sa-${var.name_suffix}"
-  display_name = "Minecraft GCE Service Account"
-}
-
 resource "google_compute_address" "default" {
   name = "minecraft-${var.name_suffix}-ip"
 }
@@ -66,7 +61,7 @@ resource "google_compute_instance" "default" {
 
   service_account {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.default.email
+    email  = var.service_account_email
     scopes = ["cloud-platform"]
   }
 
