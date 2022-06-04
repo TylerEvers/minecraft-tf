@@ -13,3 +13,9 @@ variable "service_account_email" {
   type        = string
   description = "The SA to use for this instance"
 }
+
+variable "machine_type" {
+  type        = string
+  description = "The instance size to use"
+  default     = "c2-standard-8"
+}
